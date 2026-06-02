@@ -1,8 +1,23 @@
 # NFT Trading Bot
 
-An automated, multi-marketplace NFT trading bot that places and manages **collection offers and listings on the Ethereum mainnet**. It consumes a collection-selection feed (per-collection bid factors and floor prices) and autonomously bids, lists, and accepts offers across OpenSea, Blur, and Magic Eden — plus Bitcoin Ordinals — while persisting order state and respecting marketplace rate limits.
+> **⚠️ Disclaimer**
+>
+> This repository is published as a professional work sample and serves as evidence that the system described below was designed and developed. It contains only a sanitized portion of the project's execution layer and **does not constitute the full bot logic.** The upstream collection-selection / machine-learning models and the Twitter/X announcement scraper are proprietary components that have been intentionally excluded. The material herein is provided solely for demonstration and verification purposes and is not intended to operate as a complete or functioning system.
 
-> This repository is the **execution engine** of the project. It is published as a work sample backing the *NFT Trading Bot (2022–2026)* entry on my CV. The upstream collection-selection / ML models and the Twitter/X announcement scraper are separate components and are **not** included here.
+## Contributors
+
+Developed from 2022–2026 by a small remote team, led by [@Immersified](https://github.com/Immersified):
+
+- **Shola Ayeni** — [@ayenisholah](https://github.com/ayenisholah)
+- **Immersified** — [@Immersified](https://github.com/Immersified) (lead)
+- **Stefan** — [@FinalDayz](https://github.com/FinalDayz)
+- **Alexis**
+
+> _Note: this repository was published as a sanitized work-sample with a fresh commit history, so the GitHub contribution graph does not reflect each member's original commit volume._
+
+## Overview
+
+An automated, multi-marketplace NFT trading bot that places and manages **collection offers and listings on the Ethereum mainnet**. It consumes a collection-selection feed (per-collection bid factors and floor prices) and autonomously bids, lists, and accepts offers across OpenSea, Blur, and Magic Eden — plus Bitcoin Ordinals — while persisting order state and respecting marketplace rate limits.
 
 ## What it does
 
@@ -77,19 +92,6 @@ See `package.json` for the full set of entry points (`bid:new`, `bid:parallel`, 
 ## Project context
 
 Built and maintained from 2022–2026 with a small remote engineering team (up to 3 concurrent contributors). The system maintained profitability through a ~90% drop in NFT market volume by adapting its collection-selection model and execution strategy.
-
-## Team
-
-Developed by a small remote team, led by [@Immersified](https://github.com/Immersified):
-
-- **Shola Ayeni** — [@ayenisholah](https://github.com/ayenisholah)
-- **Immersified** — [@Immersified](https://github.com/Immersified) (lead)
-- **Stefan** — [@FinalDayz](https://github.com/FinalDayz)
-- **Alexis**
-
-> Note: this repository was published as a sanitized work-sample with a fresh
-> commit history, so the GitHub contribution graph does not reflect each
-> member's original commit volume.
 
 ## Disclaimer
 
