@@ -1,0 +1,2 @@
+profit_max_ceil,outbid_margin_max,wethBalanceMax,blurPoolBalanceMax,gasFactor,ethBalanceMin
+0.95,100,0.5,0.5,0.25,0.025

@@ -1,0 +1,28 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model collectionDetails {
+  id    Int     @id @default(autoincrement())
+  slug String  @unique
+  creator_fees  String?
+  enforceCreatorFee Boolean?
+  contractAddress String
+}
+
+model Offer {
+  id    Int     @id @default(autoincrement())
+  orderHash String  @unique
+  collection String
+  offerPrice String
+  created_at DateTime @default(now())
+  expirationTime DateTime
+}

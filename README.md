@@ -1,0 +1,96 @@
+# NFT Trading Bot
+
+An automated, multi-marketplace NFT trading bot that places and manages **collection offers and listings on the Ethereum mainnet**. It consumes a collection-selection feed (per-collection bid factors and floor prices) and autonomously bids, lists, and accepts offers across OpenSea, Blur, and Magic Eden — plus Bitcoin Ordinals — while persisting order state and respecting marketplace rate limits.
+
+> This repository is the **execution engine** of the project. It is published as a work sample backing the *NFT Trading Bot (2022–2026)* entry on my CV. The upstream collection-selection / ML models and the Twitter/X announcement scraper are separate components and are **not** included here.
+
+## What it does
+
+- **Places collection offers on Ethereum mainnet** — constructs and signs [Seaport](https://github.com/ProjectOpenSea/seaport) orders, manages WETH / Blur Pool balances, and submits bids driven by per-collection `factor` × `floor_price` inputs.
+- **Operates across multiple marketplaces** from one codebase: OpenSea, Blur, Magic Eden, and Bitcoin Ordinals — bidding, listing, and accepting the best offers on each.
+- **Reverse-engineers marketplace web queries** to obtain data the public APIs don't expose, and to fetch in a single request what the official REST API needed ~100 calls for (see [Architecture notes](#reverse-engineered-marketplace-access)).
+- **Reacts in real time** to a marketplace event stream over WebSocket, re-pricing and counter-bidding as floors and offers move.
+- **Persists order/offer state** in a local database (Prisma + SQLite) so positions survive restarts.
+
+## Tech stack
+
+| Area | Technology |
+|------|------------|
+| Language | TypeScript (Node.js) |
+| Chain / signing | `ethers` v5, Seaport order components |
+| Persistence | Prisma ORM + SQLite |
+| Concurrency / rate limiting | `bottleneck`, `p-queue` |
+| Realtime | `ws` (marketplace event stream) |
+| Data inputs | CSV-driven collection config (`csv-parser`) |
+
+## Repository layout
+
+```
+src/
+  bid.ts, bid_new.ts, continuosBidding.ts, parallel.ts   # bidding entry points / loops
+  list.ts, ordinals.ts                                    # listing + ordinals entry points
+  websocket.ts                                            # realtime event stream consumer
+  functions/                                              # marketplace logic
+    offer.ts, list.ts, collection.ts
+    magiceden/                                            # Magic Eden integrations
+    ordinals/                                             # Bitcoin Ordinals integrations
+  utils/                                                  # Seaport payloads, balances, gas, signing
+    seaport.ts, payload.ts, proList.ts, fees.ts
+    graphql/query/                                        # reverse-engineered marketplace queries
+  api/nfttools.ts                                         # marketplace data proxy client
+  config/                                                 # env-backed configuration
+prisma/schema.prisma                                      # Offer / collection models
+Bidding/, Listing/, Settings/                             # collection-selection inputs (CSV)
+```
+
+### Reverse-engineered marketplace access
+
+Marketplaces gate much of their richest data (trait floors, signed-order flows, pro listing endpoints) behind their web clients rather than their public APIs. This bot reconstructs those web queries directly — for example the OpenSea Pro listing/auth flow (`utils/proList.ts`) and the GraphQL queries under `utils/graphql/query/` — so it can read trait-level and collection-level data the REST API does not return, and collapse what was ~100 paginated REST calls into a single request.
+
+## Configuration
+
+All credentials are read from environment variables — **no secrets are committed**. Copy `.env.example` to `.env` and fill in your own keys:
+
+| Variable | Purpose |
+|----------|---------|
+| `ALCHEMY_API_KEY` | Ethereum RPC provider |
+| `OPENSEA_API_KEY` | OpenSea REST + stream access |
+| `API_KEY` | NFTTools data proxy key |
+| `PRIVATE_KEY` | Trading wallet signing key |
+| `INFURIA_KEY` | Fallback RPC provider (optional) |
+| `X_API_KEY` | Extra marketplace key (optional) |
+
+Collection targets are defined in the `Bidding/`, `Listing/`, and `Settings/` CSV files (`names`, `factor`, `floor_price`, fee overrides).
+
+## Running
+
+```bash
+npm install
+npx prisma migrate dev      # initialize the local SQLite store
+npm run bid                 # run the bidding engine
+npm run listing             # run the listing engine
+npm run websocket           # run the realtime stream consumer
+```
+
+See `package.json` for the full set of entry points (`bid:new`, `bid:parallel`, `bid:continuous`, `bid:ordinals`, `listing:new`).
+
+## Project context
+
+Built and maintained from 2022–2026 with a small remote engineering team (up to 3 concurrent contributors). The system maintained profitability through a ~90% drop in NFT market volume by adapting its collection-selection model and execution strategy.
+
+## Team
+
+Developed by a small remote team, led by [@Immersified](https://github.com/Immersified):
+
+- **Shola Ayeni** — [@ayenisholah](https://github.com/ayenisholah)
+- **Immersified** — [@Immersified](https://github.com/Immersified) (lead)
+- **Stefan** — [@FinalDayz](https://github.com/FinalDayz)
+- **Alexis**
+
+> Note: this repository was published as a sanitized work-sample with a fresh
+> commit history, so the GitHub contribution graph does not reflect each
+> member's original commit volume.
+
+## Disclaimer
+
+Published as a portfolio/work-sample. Provided as-is, with no warranty. Automated on-chain trading carries financial risk; use at your own risk and supply your own credentials.

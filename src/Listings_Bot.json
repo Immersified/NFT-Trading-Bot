@@ -1,0 +1,18 @@
+﻿[
+  {
+    "slug": "overworld-incarna",
+    "contract": "0xfdf5acd92840e796955736b1bb9cc832740744ba",
+    "tokenid": 5580,
+    "lastsale": 0.9691,
+    "suspicious": false,
+    "profit": 2
+  },
+  {
+    "slug": "opepen-edition",
+    "contract": "0x6339e5E072086621540D0362C4e3Cea0d643E114",
+    "tokenid": 625,
+    "lastsale": 0.26,
+    "suspicious": true,
+    "profit": -5
+  }
+]

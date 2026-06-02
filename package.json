@@ -1,0 +1,54 @@
+{
+  "name": "opensea-tracking",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "",
+  "license": "MIT",
+  "scripts": {
+    "start": "node ./app/index.js",
+    "bid": "node ./app/bid.js",
+    "listing": "node ./app/list.js",
+    "converter": "node ./app/converter.js",
+    "dev": "nodemon ./app/index.js",
+    "listing:dev": "nodemon ./app/list.js",
+    "listing:new": "ts-node src/list.ts",
+    "bid:new": "ts-node src/bid_new.ts",
+    "bid:parallel": "ts-node src/parallel.ts",
+    "bid:continuous": "ts-node src/continuosBidding.ts",
+    "bid:ordinals": "ts-node src/ordinals.ts",
+    "test": "ts-node src/test.ts",
+    "websocket": "npx prisma migrate dev --name init && nodemon src/websocket.ts",
+    "prisma:studio": "npx prisma studio"
+  },
+  "bin": {
+    "hello": "./app/index.js"
+  },
+  "dependencies": {
+    "@bitcoinerlab/secp256k1": "^1.1.1",
+    "@prisma/client": "^6.5.0",
+    "async-lock": "^1.4.1",
+    "axios": "^1.3.5",
+    "axios-retry": "^4.0.0",
+    "bitcoinjs-lib": "^6.1.5",
+    "bottleneck": "^2.19.5",
+    "csv-parser": "^3.0.0",
+    "dotenv": "^16.0.3",
+    "ecpair": "^2.1.0",
+    "ethers": "^5.7.2",
+    "node-fetch": "^2.6.5",
+    "p-queue": "^6.6.2",
+    "ts-node": "^10.9.2",
+    "tsc": "^2.0.4",
+    "typescript": "^5.4.2",
+    "web3": "^1.8.1",
+    "ws": "^8.18.1",
+    "yargs": "13.2"
+  },
+  "devDependencies": {
+    "@types/async-lock": "^1.4.2",
+    "@types/ws": "^8.5.14",
+    "@types/yargs": "^17.0.32",
+    "nodemon": "^3.1.0",
+    "prisma": "^6.5.0"
+  }
+}

@@ -1,0 +1,4 @@
+Prevent outbidding ourselves
+Prevent outbidding our bots
+Dynamically adjust offer (if our offer is 0.008 and second highset offer became 0.001, we should adjust our bid to 0.0011)
+Cancel lower offers during outbidding

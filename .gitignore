@@ -1,0 +1,32 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# misc
+.DS_Store
+.env
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+cmd.txt
+
+prisma/dev.db
+prisma/dev.db-journal
+prisma/migrations
+
+# runtime data dumps / captured API responses (may contain wallets, cookies, signatures)
+request.txt
+actual.response.txt
+*.response.txt
+bidHistory.json
+bidsWithStatus.json
+offer.json
+offers.json
+order.json
+listing.json
+data.json
