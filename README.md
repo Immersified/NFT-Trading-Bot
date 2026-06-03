@@ -28,7 +28,7 @@ An automated, multi-marketplace NFT trading bot that places and manages **collec
 - **Persists order/offer state** in a local database (Prisma + SQLite) so positions survive restarts.
 
 
-### Algorithm System
+## Algorithm System
 The algorithm starts with scraping top collections in terms of volume. Here, metrics like floor price, sale activity, number of tokens and holders (see Figure 1) are used to filter the initial wave of collections.
 
 <p align="center">
@@ -42,7 +42,7 @@ From the 1000 collections, about 20 go through a more rigorous filter with varyi
 Results of these metrics are fed to a random forest classifier which determines the confidence on whether to place a bid on the collection. If the threshold is met, the offer price is determined in combination with the floor price and most recent sale prices.
 The final collections are extracted into a CSV file and sent to the bot.
 
-## Calibration
+### Calibration
 To adjust settings to the market accordingly, the bot is calibrated weekly. Here, the most optimal random forest classifier including offer price metrics are calculated.
 This is done by scraping NFT sales from own plus other wallets with the collection variables attached during the purchase period. Afterward, a grid-search is executed to find the best classifier and metrics.
 A result of such can be seen in Figure 2, here, the optimization system applies a combination of total profit gained plus win rate to determine the most suitable algorithm.
