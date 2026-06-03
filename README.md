@@ -27,6 +27,35 @@ An automated, multi-marketplace NFT trading bot that places and manages **collec
 - **Reacts in real time** to a marketplace event stream over WebSocket, re-pricing and counter-bidding as floors and offers move.
 - **Persists order/offer state** in a local database (Prisma + SQLite) so positions survive restarts.
 
+
+### Algorithm System
+The algorithm starts with scraping top collections in terms of volume. Here, metrics like floor price, sale activity, number of tokens and holders (see Figure 1) are used to filter the initial wave of collections.
+
+<p align="center">
+  <img width="600" alt="Main Filter" src="https://github.com/user-attachments/assets/154ca7ab-2c50-48a0-80b3-61ac91331f05" />
+  <br>
+  <em>Figure 1: Combined collection metrics after initial filtering wave. On top, the number of collections the bot would bit on are seen. Below, metrics like the percentage difference between the floor price and highest offer price are shown
+    including ETH & WETH merket volume, Bid / Ask ratio (ETH / WETH) and the Ethereum price.</em>
+</p>
+
+From the 1000 collections, about 20 go through a more rigorous filter with varying metrics to determine a collection's performance. Here, one can think of price slope filters, collection listings, number of buyers and sellers, ask-to-bid ratio and floor price changes.
+Results of these metrics are fed to a random forest classifier which determines the confidence on whether to place a bid on the collection. If the threshold is met, the offer price is determined in combination with the floor price and most recent sale prices.
+The final collections are extracted into a CSV file and sent to the bot.
+
+## Calibration
+To adjust settings to the market accordingly, the bot is calibrated weekly. Here, the most optimal random forest classifier including offer price metrics are calculated.
+This is done by scraping NFT sales from own plus other wallets with the collection variables attached during the purchase period. Afterward, a grid-search is executed to find the best classifier and metrics.
+A result of such can be seen in Figure 2, here, the optimization system applies a combination of total profit gained plus win rate to determine the most suitable algorithm.
+
+<p align="center">
+  <img width="900" alt="Calibration Comparison" src="https://github.com/user-attachments/assets/0cbf0b70-5e10-422d-b8c4-5ee86268628c" />
+  <br>
+  <em>Figure 2: Performance comparison of random forest models between the current and previous calibration.</em>
+</p>
+
+The calibration system has numerous intricacies like a walk-forward system with specific train and testing periods. Moreover, the data set used always nets to break-even in terms of profit to ensure it is non-biased.
+
+
 ## Tech stack
 
 | Area | Technology |
