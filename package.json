@@ -1,27 +1,17 @@
 {
-  "name": "opensea-tracking",
+  "name": "nft-trading-bot",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "src/bid_new.ts",
   "author": "",
   "license": "MIT",
   "scripts": {
-    "start": "node ./app/index.js",
-    "bid": "node ./app/bid.js",
-    "listing": "node ./app/list.js",
-    "converter": "node ./app/converter.js",
-    "dev": "nodemon ./app/index.js",
-    "listing:dev": "nodemon ./app/list.js",
-    "listing:new": "ts-node src/list.ts",
-    "bid:new": "ts-node src/bid_new.ts",
+    "bid": "ts-node src/bid_new.ts",
     "bid:parallel": "ts-node src/parallel.ts",
     "bid:continuous": "ts-node src/continuosBidding.ts",
     "bid:ordinals": "ts-node src/ordinals.ts",
-    "test": "ts-node src/test.ts",
+    "listing": "ts-node src/list.ts",
     "websocket": "npx prisma migrate dev --name init && nodemon src/websocket.ts",
     "prisma:studio": "npx prisma studio"
-  },
-  "bin": {
-    "hello": "./app/index.js"
   },
   "dependencies": {
     "@bitcoinerlab/secp256k1": "^1.1.1",
